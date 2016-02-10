@@ -1,4 +1,4 @@
-FROM phusion/passenger-customizable:0.9.15
+FROM phusion/passenger-customizable:0.9.17
 
 # set correct environment variables
 ENV HOME /root
@@ -8,16 +8,12 @@ CMD ["/sbin/my_init"]
 
 # customizing passenger-customizable image
 RUN /pd_build/ruby2.2.sh
-RUN /pd_build/nodejs.sh
 RUN /pd_build/redis.sh
 
 ENV RAILS_ENV production
 
-# upgrade passenger
-RUN apt-get update
-RUN apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
-
 # native passenger
+RUN ruby2.2 -S passenger-config build-native-support
 RUN setuser app ruby2.2 -S passenger-config build-native-support
 
 # nginx
@@ -26,6 +22,7 @@ RUN rm /etc/nginx/sites-enabled/default
 ADD docker/backend.quran.com /etc/nginx/sites-enabled/backend.quran.com
 ADD docker/postgres-env.conf /etc/nginx/main.d/postgres-env.conf
 ADD docker/elasticsearch-env.conf /etc/nginx/main.d/elasticsearch-env.conf
+ADD docker/gzip.conf /etc/nginx/conf.d/gzip.conf
 
 # logrotate
 COPY docker/nginx.logrotate.conf /etc/logrotate.d/nginx

@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.0'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.18.1'
+gem 'pg', '~> 0.18.2'
 # Use SCSS for stylesheets
 #gem 'sass-rails' #, '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -45,6 +45,13 @@ gem 'spring-commands-rspec', group: :development
 # Rails console to work
 gem 'rb-readline'
 
+# Detect the language
+gem 'whatlanguage'
+gem 'prose'
+
+# ActiveModel like for ruby classes
+gem 'virtus'
+
 # composite primary keys
 gem 'composite_primary_keys', {
   :git => 'git://github.com/composite-primary-keys/composite_primary_keys.git',
@@ -63,7 +70,6 @@ gem 'elasticsearch-rails'
 gem 'batchelor'
 
 # Paging the results
-# gem 'will_paginate'
 gem 'kaminari'
 
 # nv 'dir'='/base2' rake db:data:dump_dir
@@ -89,6 +95,7 @@ group :development, :test do
   gem 'rails-perftest'
   gem 'ruby-prof'
 
+  gem 'web-console', '~> 2.0'
 end
 
 gem 'elasticsearch'
@@ -99,12 +106,7 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'httparty'
 
-# Keen.io
-gem 'keen'
-
-
-gem 'levenshtein-ffi'
-gem 'levenshtein'
+gem 'annotate'
 
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'

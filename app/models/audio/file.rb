@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: audio.file
+#
+#  file_id       :integer          not null, primary key
+#  recitation_id :integer          not null
+#  ayah_key      :text             not null
+#  format        :text             not null
+#  duration      :float            not null
+#  mime_type     :text             not null
+#  is_enabled    :boolean          default(TRUE), not null
+#
+
 class Audio::File < ActiveRecord::Base
     extend Audio
 
@@ -7,7 +20,7 @@ class Audio::File < ActiveRecord::Base
     belongs_to :ayah,       class_name: 'Quran::Ayah'
     belongs_to :recitation, class_name: 'Audio::Recitation'
 
-    def self.fetch_audio_files(audio_id, keys)
+    def self.bucket_audio(audio_id, keys)
         self
         .joins("join quran.ayah a using ( ayah_key )")
         .joins("left join ( select t.recitation_id
@@ -59,6 +72,6 @@ class Audio::File < ActiveRecord::Base
                     mime_type: ayah.mp3_mime_type
                 }
           }
-        end
+        end.uniq{|a| a[:ayah_key]}
     end
 end
